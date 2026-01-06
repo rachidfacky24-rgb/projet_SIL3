@@ -105,11 +105,26 @@
             cursor: pointer;
             transition: all 0.3s ease;
             border-left: 3px solid #667eea;
+            position: relative;
         }
 
         .subspace-item:hover {
             background: #e9ecef;
             transform: translateX(5px);
+        }
+
+        .subspace-actions {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .subspace-item:hover .subspace-actions {
+            opacity: 1;
         }
 
         .subspace-icon {
@@ -126,6 +141,197 @@
             font-size: 0.8rem;
             color: #666;
             margin-top: 2px;
+        }
+
+        .card-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .action-btn.edit {
+            background: #28a745;
+            color: white;
+        }
+
+        .action-btn.edit:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+
+        .action-btn.delete {
+            background: #dc3545;
+            color: white;
+        }
+
+        .action-btn.delete:hover {
+            background: #c82333;
+            transform: translateY(-1px);
+        }
+
+        .action-btn.add {
+            background: #007bff;
+            color: white;
+        }
+
+        .action-btn.add:hover {
+            background: #0056b3;
+            transform: translateY(-1px);
+        }
+
+        .add-space-btn {
+            margin-top: 30px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .add-space-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(40, 167, 69, 0.3);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .modal h2 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn.save {
+            background: #28a745;
+            color: white;
+        }
+
+        .modal-btn.save:hover {
+            background: #218838;
+        }
+
+        .modal-btn.cancel {
+            background: #6c757d;
+            color: white;
+        }
+
+        .modal-btn.cancel:hover {
+            background: #545b62;
+        }
+
+        .confirm-dialog {
+            text-align: center;
+        }
+
+        .confirm-dialog p {
+            margin-bottom: 20px;
+            color: #666;
         }
 
         .stats {
@@ -266,21 +472,44 @@
                 <span class="card-icon">🏫</span>
                 <div class="card-title">Salle Informatique</div>
                 <div class="card-description">Espace dédié aux cours d'informatique avec équipements modernes.</div>
+                <div class="card-actions">
+                    <button class="action-btn edit" onclick="event.stopPropagation(); editSpace('Salle Informatique')">
+                        ✏️ Modifier
+                    </button>
+                    <button class="action-btn delete" onclick="event.stopPropagation(); deleteSpace('Salle Informatique')">
+                        🗑️ Supprimer
+                    </button>
+                    <button class="action-btn add" onclick="event.stopPropagation(); addSubspace('Salle Informatique')">
+                        ➕ Sous-espace
+                    </button>
+                </div>
                 <div class="subspaces">
                     <div class="subspace-item" onclick="selectSubspace('Salle Informatique - PC1')">
                         <span class="subspace-icon">💻</span>
                         <div class="subspace-name">PC1 - Programmation</div>
                         <div class="subspace-users">5 utilisateurs</div>
+                        <div class="subspace-actions">
+                            <button class="action-btn edit" onclick="event.stopPropagation(); editSubspace('PC1 - Programmation')" style="font-size: 0.7rem; padding: 4px 8px;">✏️</button>
+                            <button class="action-btn delete" onclick="event.stopPropagation(); deleteSubspace('PC1 - Programmation')" style="font-size: 0.7rem; padding: 4px 8px;">🗑️</button>
+                        </div>
                     </div>
                     <div class="subspace-item" onclick="selectSubspace('Salle Informatique - PC2')">
                         <span class="subspace-icon">💻</span>
                         <div class="subspace-name">PC2 - Réseaux</div>
                         <div class="subspace-users">4 utilisateurs</div>
+                        <div class="subspace-actions">
+                            <button class="action-btn edit" onclick="event.stopPropagation(); editSubspace('PC2 - Réseaux')" style="font-size: 0.7rem; padding: 4px 8px;">✏️</button>
+                            <button class="action-btn delete" onclick="event.stopPropagation(); deleteSubspace('PC2 - Réseaux')" style="font-size: 0.7rem; padding: 4px 8px;">🗑️</button>
+                        </div>
                     </div>
                     <div class="subspace-item" onclick="selectSubspace('Salle Informatique - Lab')">
                         <span class="subspace-icon">🔬</span>
                         <div class="subspace-name">Laboratoire Virtuel</div>
                         <div class="subspace-users">3 utilisateurs</div>
+                        <div class="subspace-actions">
+                            <button class="action-btn edit" onclick="event.stopPropagation(); editSubspace('Laboratoire Virtuel')" style="font-size: 0.7rem; padding: 4px 8px;">✏️</button>
+                            <button class="action-btn delete" onclick="event.stopPropagation(); deleteSubspace('Laboratoire Virtuel')" style="font-size: 0.7rem; padding: 4px 8px;">🗑️</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -289,21 +518,44 @@
                 <span class="card-icon">🔬</span>
                 <div class="card-title">Laboratoire Sciences</div>
                 <div class="card-description">Laboratoire équipé pour les expériences scientifiques.</div>
+                <div class="card-actions">
+                    <button class="action-btn edit" onclick="event.stopPropagation(); editSpace('Laboratoire Sciences')">
+                        ✏️ Modifier
+                    </button>
+                    <button class="action-btn delete" onclick="event.stopPropagation(); deleteSpace('Laboratoire Sciences')">
+                        🗑️ Supprimer
+                    </button>
+                    <button class="action-btn add" onclick="event.stopPropagation(); addSubspace('Laboratoire Sciences')">
+                        ➕ Sous-espace
+                    </button>
+                </div>
                 <div class="subspaces">
                     <div class="subspace-item" onclick="selectSubspace('Laboratoire Sciences - Chimie')">
                         <span class="subspace-icon">⚗️</span>
                         <div class="subspace-name">Chimie</div>
                         <div class="subspace-users">6 utilisateurs</div>
+                        <div class="subspace-actions">
+                            <button class="action-btn edit" onclick="event.stopPropagation(); editSubspace('Chimie')" style="font-size: 0.7rem; padding: 4px 8px;">✏️</button>
+                            <button class="action-btn delete" onclick="event.stopPropagation(); deleteSubspace('Chimie')" style="font-size: 0.7rem; padding: 4px 8px;">🗑️</button>
+                        </div>
                     </div>
                     <div class="subspace-item" onclick="selectSubspace('Laboratoire Sciences - Physique')">
                         <span class="subspace-icon">⚡</span>
                         <div class="subspace-name">Physique</div>
                         <div class="subspace-users">4 utilisateurs</div>
+                        <div class="subspace-actions">
+                            <button class="action-btn edit" onclick="event.stopPropagation(); editSubspace('Physique')" style="font-size: 0.7rem; padding: 4px 8px;">✏️</button>
+                            <button class="action-btn delete" onclick="event.stopPropagation(); deleteSubspace('Physique')" style="font-size: 0.7rem; padding: 4px 8px;">🗑️</button>
+                        </div>
                     </div>
                     <div class="subspace-item" onclick="selectSubspace('Laboratoire Sciences - Biologie')">
                         <span class="subspace-icon">🧬</span>
                         <div class="subspace-name">Biologie</div>
                         <div class="subspace-users">5 utilisateurs</div>
+                        <div class="subspace-actions">
+                            <button class="action-btn edit" onclick="event.stopPropagation(); editSubspace('Biologie')" style="font-size: 0.7rem; padding: 4px 8px;">✏️</button>
+                            <button class="action-btn delete" onclick="event.stopPropagation(); deleteSubspace('Biologie')" style="font-size: 0.7rem; padding: 4px 8px;">🗑️</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -400,6 +652,10 @@
                 </div>
             </div>
         </div>
+
+        <button class="add-space-btn" onclick="addNewSpace()">
+            🏗️ Créer un nouvel espace pédagogique
+        </button>
 
         <div>
             <button class="button" onclick="showMessage('Action principale exécutée !')">Action Principale</button>
@@ -501,6 +757,271 @@
                 }).addEventListener('finish', () => particle.remove());
             }
         }
+
+        // Fonctions CRUD pour les espaces
+        function editSpace(spaceName) {
+            const modal = document.getElementById('editSpaceModal');
+            const spaceTitle = document.getElementById('editSpaceTitle');
+            const spaceDescription = document.getElementById('editSpaceDescription');
+
+            spaceTitle.value = spaceName;
+            // Ici on pourrait récupérer la description actuelle depuis les données
+            spaceDescription.value = getSpaceDescription(spaceName);
+
+            modal.style.display = 'block';
+        }
+
+        function deleteSpace(spaceName) {
+            const modal = document.getElementById('deleteSpaceModal');
+            const confirmText = document.getElementById('deleteSpaceText');
+
+            confirmText.textContent = `Êtes-vous sûr de vouloir supprimer l'espace "${spaceName}" et tous ses sous-espaces ?`;
+            modal.style.display = 'block';
+
+            // Stocker le nom de l'espace à supprimer
+            modal.setAttribute('data-space-name', spaceName);
+        }
+
+        function addSubspace(spaceName) {
+            const modal = document.getElementById('addSubspaceModal');
+            const parentSpace = document.getElementById('parentSpace');
+
+            parentSpace.value = spaceName;
+            modal.style.display = 'block';
+        }
+
+        function editSubspace(subspaceName) {
+            const modal = document.getElementById('editSubspaceModal');
+            const subspaceTitle = document.getElementById('editSubspaceTitle');
+
+            subspaceTitle.value = subspaceName;
+            // Ici on pourrait récupérer les informations actuelles
+            modal.style.display = 'block';
+        }
+
+        function deleteSubspace(subspaceName) {
+            const modal = document.getElementById('deleteSubspaceModal');
+            const confirmText = document.getElementById('deleteSubspaceText');
+
+            confirmText.textContent = `Êtes-vous sûr de vouloir supprimer le sous-espace "${subspaceName}" ?`;
+            modal.style.display = 'block';
+
+            // Stocker le nom du sous-espace à supprimer
+            modal.setAttribute('data-subspace-name', subspaceName);
+        }
+
+        function addNewSpace() {
+            const modal = document.getElementById('addSpaceModal');
+            modal.style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'none';
+        }
+
+        function saveSpace() {
+            const title = document.getElementById('editSpaceTitle').value;
+            const description = document.getElementById('editSpaceDescription').value;
+
+            if (title.trim() === '') {
+                showMessage('Le titre ne peut pas être vide', 'error');
+                return;
+            }
+
+            showMessage(`Espace "${title}" modifié avec succès !`);
+            closeModal('editSpaceModal');
+            // Ici on pourrait sauvegarder dans une base de données ou localStorage
+        }
+
+        function confirmDeleteSpace() {
+            const modal = document.getElementById('deleteSpaceModal');
+            const spaceName = modal.getAttribute('data-space-name');
+
+            showMessage(`Espace "${spaceName}" supprimé avec succès !`);
+            closeModal('deleteSpaceModal');
+            // Ici on pourrait supprimer de la base de données
+        }
+
+        function saveNewSubspace() {
+            const parentSpace = document.getElementById('parentSpace').value;
+            const title = document.getElementById('newSubspaceTitle').value;
+            const description = document.getElementById('newSubspaceDescription').value;
+
+            if (title.trim() === '') {
+                showMessage('Le titre du sous-espace ne peut pas être vide', 'error');
+                return;
+            }
+
+            showMessage(`Sous-espace "${title}" ajouté à "${parentSpace}" !`);
+            closeModal('addSubspaceModal');
+            // Ici on pourrait sauvegarder dans une base de données
+        }
+
+        function saveEditedSubspace() {
+            const title = document.getElementById('editSubspaceTitle').value;
+
+            if (title.trim() === '') {
+                showMessage('Le titre du sous-espace ne peut pas être vide', 'error');
+                return;
+            }
+
+            showMessage(`Sous-espace "${title}" modifié avec succès !`);
+            closeModal('editSubspaceModal');
+        }
+
+        function confirmDeleteSubspace() {
+            const modal = document.getElementById('deleteSubspaceModal');
+            const subspaceName = modal.getAttribute('data-subspace-name');
+
+            showMessage(`Sous-espace "${subspaceName}" supprimé avec succès !`);
+            closeModal('deleteSubspaceModal');
+        }
+
+        function saveNewSpace() {
+            const title = document.getElementById('newSpaceTitle').value;
+            const description = document.getElementById('newSpaceDescription').value;
+
+            if (title.trim() === '') {
+                showMessage('Le titre de l\'espace ne peut pas être vide', 'error');
+                return;
+            }
+
+            showMessage(`Nouvel espace "${title}" créé avec succès !`);
+            closeModal('addSpaceModal');
+            // Ici on pourrait sauvegarder dans une base de données
+        }
+
+        function getSpaceDescription(spaceName) {
+            // Simulation de récupération de description
+            const descriptions = {
+                'Salle Informatique': 'Espace dédié aux cours d\'informatique avec équipements modernes.',
+                'Laboratoire Sciences': 'Laboratoire équipé pour les expériences scientifiques.',
+                'Salle de Formation': 'Salle dédiée aux formations professionnelles et ateliers.',
+                'Atelier Technique': 'Espace pour les travaux pratiques et maintenance.',
+                'Espace Formateur': 'Salle dédiée aux formateurs pour préparer et animer les cours.',
+                'Espace Étudiant': 'Zone réservée aux étudiants pour l\'étude et les travaux de groupe.'
+            };
+            return descriptions[spaceName] || '';
+        }
+
+        // Fermer les modales en cliquant en dehors
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
     </script>
+
+    <!-- Modals pour les actions CRUD -->
+    <!-- Modal Ajouter Espace -->
+    <div id="addSpaceModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('addSpaceModal')">&times;</span>
+            <h2>➕ Ajouter un nouvel espace</h2>
+            <div class="form-group">
+                <label for="newSpaceTitle">Nom de l'espace</label>
+                <input type="text" id="newSpaceTitle" placeholder="Entrez le nom de l'espace">
+            </div>
+            <div class="form-group">
+                <label for="newSpaceDescription">Description</label>
+                <textarea id="newSpaceDescription" rows="3" placeholder="Entrez la description de l'espace"></textarea>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" onclick="closeModal('addSpaceModal')">Annuler</button>
+                <button class="modal-btn save" onclick="saveNewSpace()">Créer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Modifier Espace -->
+    <div id="editSpaceModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('editSpaceModal')">&times;</span>
+            <h2>✏️ Modifier l'espace</h2>
+            <div class="form-group">
+                <label for="editSpaceTitle">Nom de l'espace</label>
+                <input type="text" id="editSpaceTitle">
+            </div>
+            <div class="form-group">
+                <label for="editSpaceDescription">Description</label>
+                <textarea id="editSpaceDescription" rows="3"></textarea>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" onclick="closeModal('editSpaceModal')">Annuler</button>
+                <button class="modal-btn save" onclick="saveSpace()">Sauvegarder</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Supprimer Espace -->
+    <div id="deleteSpaceModal" class="modal">
+        <div class="modal-content confirm-dialog">
+            <span class="close" onclick="closeModal('deleteSpaceModal')">&times;</span>
+            <h2>⚠️ Confirmation de suppression</h2>
+            <p id="deleteSpaceText"></p>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" onclick="closeModal('deleteSpaceModal')">Annuler</button>
+                <button class="modal-btn" style="background: #dc3545;" onclick="confirmDeleteSpace()">Supprimer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Ajouter Sous-espace -->
+    <div id="addSubspaceModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('addSubspaceModal')">&times;</span>
+            <h2>➕ Ajouter un sous-espace</h2>
+            <div class="form-group">
+                <label for="parentSpace">Espace parent</label>
+                <input type="text" id="parentSpace" readonly>
+            </div>
+            <div class="form-group">
+                <label for="newSubspaceTitle">Nom du sous-espace</label>
+                <input type="text" id="newSubspaceTitle" placeholder="Entrez le nom du sous-espace">
+            </div>
+            <div class="form-group">
+                <label for="newSubspaceDescription">Description</label>
+                <textarea id="newSubspaceDescription" rows="2" placeholder="Entrez la description du sous-espace"></textarea>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" onclick="closeModal('addSubspaceModal')">Annuler</button>
+                <button class="modal-btn save" onclick="saveNewSubspace()">Ajouter</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Modifier Sous-espace -->
+    <div id="editSubspaceModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('editSubspaceModal')">&times;</span>
+            <h2>✏️ Modifier le sous-espace</h2>
+            <div class="form-group">
+                <label for="editSubspaceTitle">Nom du sous-espace</label>
+                <input type="text" id="editSubspaceTitle">
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" onclick="closeModal('editSubspaceModal')">Annuler</button>
+                <button class="modal-btn save" onclick="saveEditedSubspace()">Sauvegarder</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Supprimer Sous-espace -->
+    <div id="deleteSubspaceModal" class="modal">
+        <div class="modal-content confirm-dialog">
+            <span class="close" onclick="closeModal('deleteSubspaceModal')">&times;</span>
+            <h2>⚠️ Confirmation de suppression</h2>
+            <p id="deleteSubspaceText"></p>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" onclick="closeModal('deleteSubspaceModal')">Annuler</button>
+                <button class="modal-btn" style="background: #dc3545;" onclick="confirmDeleteSubspace()">Supprimer</button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
